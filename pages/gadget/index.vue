@@ -1,51 +1,87 @@
 <template>
   <div>
-    <div class="container border mt-5">
-      <b-table striped hover :items="items" :fields="fields">
+
+    <div class="container ">
+
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="my-4">Tambahkan Barang</h2>
+          <b-form @submit="onSubmit" @reset="onReset">
+            <b-form-group id="input-group-1" label="Your Item:" label-for="input-1">
+              <b-form-input id="input-1" v-model="form.nama_barang" placeholder="Enter Your Item" required>
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-2" label="Items Price:" label-for="input-2">
+              <b-form-input id="input-2" v-model="form.harga" placeholder="Enter Item's Price" required>
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-3" label="Category" label-for="input-3">
+              <b-form-select v-model="form.kategori" :options="options">
+              </b-form-select>
+            </b-form-group>
+
+            <b-form-group id="input-group-4" label="Image " label-for="input-4">
+              <b-form-input id="input-4" v-model="form.gambar"
+                placeholder=" Image(Only link Image/not accept local image)" required>
+              </b-form-input>
+            </b-form-group>
+
+            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="reset" variant="danger">Reset</b-button>
+          </b-form>
+        </div>
+
+        <div class="col-md-6">
+          <div v-if="onEdit">
+            <h2 class="my-4">Edit Barang</h2>
+            <b-form @submit="onSubmitEdit">
+              <b-form-group id="input-group-1" label="Your Edited Item Name:" label-for="input-1">
+                <b-form-input v-model="form_edit.nama_barang" value="form.nama_barang" placeholder="Enter Nama"
+                  required>
+                </b-form-input>
+              </b-form-group>
+
+              <b-form-group id="input-group-2" label="Price:" label-for="input-2">
+                <b-form-input v-model="form_edit.harga" value="form.harga" placeholder="Enter Umur" required>
+                </b-form-input>
+              </b-form-group>
+
+              <b-form-group id="input-group-3" label="Category:" label-for="input-3">
+                <b-form-select v-model="form_edit.kategori" value="form.kategori" :options="options">
+                </b-form-select>
+              </b-form-group>
+
+              <b-form-group id="input-group-4" label="Image" label-for="input-4">
+                <b-form-input id="input-4" v-model="form_edit.gambar" value="form.gambar" placeholder=" Image(Only link Image/not accept local image)" required>
+                </b-form-input>
+              </b-form-group>
+
+              <b-button type="submit" variant="primary">Submit</b-button>
+            </b-form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="container mt-5">
+
+      <h2 class="my-4">List Barang</h2>
+      <b-table striped hover :items="items" class="border" :fields="fields">
+        <template #cell(image)="row">
+          <img :src="row.item.gambar" class="obj-cover rounded" width="50px" height="50px" alt="">
+        </template>
         <template #cell(#)="data">
-            <button class="btn btn-success" @click="onEditForm(data.item)">
+          <button class="btn btn-success" @click="onEditForm(data.item)">
             Edit
           </button>
           <button class="btn btn-danger" @click="onDelete(data.item)">
             Delete
           </button>
+          <button class="btn btn-warning" @click="goToDetail(data.item.id)">Detail</button>
         </template>
       </b-table>
-    </div>
-    <div class="container">
-      <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="input-group-1" label="Your Item:" label-for="input-1">
-          <b-form-input id="input-1" v-model="form.nama_barang" placeholder="Enter Your Item" required>
-          </b-form-input>
-        </b-form-group>
-        <b-form-group id="input-group-2" label="Items Price:" label-for="input-2">
-          <b-form-input id="input-2" v-model="form.harga" placeholder="Enter Item's Price" required>
-          </b-form-input>
-        </b-form-group>
-        <b-form-group id="input-group-3" label="Category" label-for="input-3">
-          <b-form-input id="input-3" v-model="form.kategori" placeholder="Enter Item's Category" required>
-          </b-form-input>
-        </b-form-group>
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
-      <div v-if="onEdit" class="mt-5">
-        <b-form @submit="onSubmitEdit">
-          <b-form-group id="input-group-1" label="Barang:" label-for="input-1">
-            <b-form-input v-model="form_edit.nama_barang" value="form.nama_barang" placeholder="Enter Nama" required>
-            </b-form-input>
-          </b-form-group>
-          <b-form-group id="input-group-2" label="Harga:" label-for="input-2">
-            <b-form-input v-model="form_edit.harga" value="form.harga" placeholder="Enter Umur" required>
-            </b-form-input>
-          </b-form-group>
-          <b-form-group id="input-group-3" label="kategori:" label-for="input-3">
-            <b-form-input v-model="form_edit.kategori" value="form.kategori" placeholder="Enter Kategori" required>
-            </b-form-input>
-          </b-form-group>
-            <b-button type="submit" variant="primary">Submit</b-button>
-        </b-form>
-      </div>
     </div>
   </div>
 
@@ -53,22 +89,42 @@
 
 <script>
   export default {
+    name: 'Index',
     data() {
       return {
         items: [],
         form: {
           nama_barang: "",
           harga: "",
-          kategori: ""
+          kategori: "",
+          gambar: ""
         },
+        options: [{
+            value: 'Smartphone',
+            text: 'Smartphone'
+          },
+          {
+            value: 'Tablet',
+            text: 'Tablet'
+          },
+          {
+            value: 'Laptop',
+            text: 'Laptop'
+          },
+          {
+            value: 'Other',
+            text: 'Other'
+          },
+        ],
         onEdit: false,
         form_edit: {
           nama_barang: "",
           harga: "",
-          kategori: ""
+          kategori: "",
+          gambar: ""
         },
         fields: [{
-            key: "id",
+            key: "image",
             sortable: true
           },
           {
@@ -92,10 +148,10 @@
       }
     },
     methods: {
-        async getapi() {
+      async getapi() {
         const data = await this.$axios.$get("http://localhost:3500/users/gadget");
         this.items = data.data;
-        for(let i = 0; i < this.items.length; i++){
+        for (let i = 0; i < this.items.length; i++) {
           const element = this.items[i]
           element.id = i + 1
         }
@@ -130,7 +186,7 @@
         });
       },
       async onEditForm(data) {
-        this.onEdit = true; 
+        this.onEdit = true;
         this.form_edit.nama_barang = data.nama_barang;
         this.form_edit.harga = data.harga;
         this.form_edit.kategori = data.kategori;
@@ -138,16 +194,18 @@
       },
       async onSubmitEdit(event) {
         event.preventDefault();
-        try{
-            await this.$axios.$put(
-              `http://localhost:3500/users/gadget/` + this.form_edit.id,
-              this.form_edit
-            );
-            this.getapi();
-        }
-        catch(error){
+        try {
+          await this.$axios.$put(
+            `http://localhost:3500/users/gadget/` + this.form_edit.id,
+            this.form_edit
+          );
+          this.getapi();
+        } catch (error) {
           console.log(error);
         }
+      },
+      async goToDetail(id) {
+        this.$router.push(`gadget/detail/${id}`);
       },
     },
 
