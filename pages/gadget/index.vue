@@ -1,6 +1,20 @@
 <template>
   <div>
+    <div>
+      <b-navbar toggleable="sm" type="light" variant="light">
+        <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
 
+        <b-navbar-brand>TokoPaedi</b-navbar-brand>
+
+        <b-collapse id="nav-text-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-text>
+              <a href="http://localhost:3000/gadget" style="text-decoration: none;color: rgba(0, 0, 0, 0.725);">Daftar Barang</a>
+            </b-nav-text>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
     <div class="container ">
 
       <div class="row">
@@ -54,7 +68,8 @@
               </b-form-group>
 
               <b-form-group id="input-group-4" label="Image" label-for="input-4">
-                <b-form-input id="input-4" v-model="form_edit.gambar" value="form.gambar" placeholder=" Image(Only link Image/not accept local image)" required>
+                <b-form-input id="input-4" v-model="form_edit.gambar" value="form.gambar"
+                  placeholder=" Image(Only link Image/not accept local image)" required>
                 </b-form-input>
               </b-form-group>
 
