@@ -3,18 +3,21 @@
     "name": "gadget",
     "path": "/gadget",
     "component": "C:\\\\Users\\\\Armand Nur\\\\Project\\\\RPL\\\\website\\\\vue\\\\Tokopaedi\\\\fe_tokopaedi\\\\tokopaedi\\\\pages\\\\gadget\\\\index.vue",
-    "chunkName": "pages/gadget/index"
+    "chunkName": "pages/gadget/index",
+    "_name": "_9830737e"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\Armand Nur\\\\Project\\\\RPL\\\\website\\\\vue\\\\Tokopaedi\\\\fe_tokopaedi\\\\tokopaedi\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_5026308d"
   },
   {
     "name": "gadget-detail-id",
     "path": "/gadget/detail/:id?",
     "component": "C:\\\\Users\\\\Armand Nur\\\\Project\\\\RPL\\\\website\\\\vue\\\\Tokopaedi\\\\fe_tokopaedi\\\\tokopaedi\\\\pages\\\\gadget\\\\detail\\\\_id.vue",
-    "chunkName": "pages/gadget/detail/_id"
+    "chunkName": "pages/gadget/detail/_id",
+    "_name": "_3a169538"
   }
 ]

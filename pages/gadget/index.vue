@@ -50,7 +50,7 @@
         <div class="col-md-6">
           <div v-if="onEdit">
             <h2 class="my-4">Edit Barang</h2>
-            <b-form @submit="onSubmitEdit">
+            <b-form @submit="onSubmitEdit" @reset="onCancelEdit">
               <b-form-group id="input-group-1" label="Your Edited Item Name:" label-for="input-1">
                 <b-form-input v-model="form_edit.nama_barang" value="form.nama_barang" placeholder="Enter Nama"
                   required>
@@ -74,6 +74,7 @@
               </b-form-group>
 
               <b-button type="submit" variant="primary">Submit</b-button>
+              <b-button type="reset" variant="danger">Cancel</b-button>
             </b-form>
           </div>
         </div>
@@ -166,10 +167,6 @@
       async getapi() {
         const data = await this.$axios.$get("http://localhost:3500/users/gadget");
         this.items = data.data;
-        for (let i = 0; i < this.items.length; i++) {
-          const element = this.items[i]
-          element.id = i + 1
-        }
         console.log(data.data);
       },
       async onDelete(data) {
@@ -205,7 +202,12 @@
         this.form_edit.nama_barang = data.nama_barang;
         this.form_edit.harga = data.harga;
         this.form_edit.kategori = data.kategori;
+        this.form_edit.gambar = data.gambar;
         this.form_edit.id = data.id;
+      },
+      async onCancelEdit(event) {
+        event.preventDefault();
+        this.onEdit = false;
       },
       async onSubmitEdit(event) {
         event.preventDefault();
